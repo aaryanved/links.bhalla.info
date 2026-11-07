@@ -99,15 +99,8 @@ a {
 .top {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding-block: 1.25rem;
-  color: var(--ink-60);
-}
-.top-home {
-  transition: color 0.35s var(--ease-io);
-}
-.top-home:hover {
-  color: var(--fg);
 }
 
 /* The black hole, in miniature: a void with its disc tilted and turning.
@@ -175,11 +168,9 @@ a {
   outline-offset: 2px;
 }
 
-/* ─── Hero ────────────────────────────────────────────────────────────────── */
-.hero {
-  padding-top: clamp(2.5rem, 9vh, 5.5rem);
-}
+/* ─── Name ────────────────────────────────────────────────────────────────── */
 .name {
+  padding-top: clamp(2rem, 8vh, 5rem);
   font-size: clamp(3.4rem, 17vw, 8.75rem);
 }
 /* Each line rises out of its own mask, as the hero name does on the site. */
@@ -201,37 +192,11 @@ a {
   }
 }
 
-.role {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.6rem;
-  margin-top: clamp(1.5rem, 4vw, 2.25rem);
-  color: var(--ink-60);
-}
-.statement {
-  margin-top: 0.7rem;
-  max-width: 34ch;
-  font-size: clamp(1.05rem, 2.4vw, 1.25rem);
-  line-height: 1.45;
-  color: var(--ink-60);
-}
-
 /* ─── Links ───────────────────────────────────────────────────────────────── */
-main {
-  margin-top: clamp(3.5rem, 10vh, 6rem);
+.links {
+  margin-top: clamp(3rem, 9vh, 5.5rem);
   padding-bottom: clamp(4rem, 12vh, 7rem);
-}
-.group + .group {
-  margin-top: clamp(2.75rem, 7vh, 4.25rem);
-}
-
-.label {
-  display: flex;
-  align-items: baseline;
-  gap: 0.9rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--rule);
-  color: var(--ink-60);
+  border-top: 1px solid var(--rule);
 }
 
 .row {
@@ -285,53 +250,11 @@ main {
   color: var(--ink-40);
 }
 
-/* On a phone the event name drops under the project, so the place caption
-   and the event never crowd each other. */
-@media (max-width: 520px) {
-  .podium {
-    grid-template-columns: minmax(0, 1fr) auto;
-    row-gap: 0.55rem;
-  }
-  .podium .row-meta {
-    grid-row: 2;
-    grid-column: 1;
-    text-align: left;
-  }
-  .podium .row-arrow {
-    grid-row: 1 / span 2;
-    grid-column: 2;
-  }
-  .row.podium:hover .row-meta {
-    transform: translateX(clamp(0.5rem, 1.4vw, 0.9rem));
-  }
-}
-
 /* X's own mark stands in for the word, sized to the caps around it. */
 .x-mark {
   width: 0.78em;
   height: 0.78em;
   fill: currentColor;
-}
-
-/* A podium finish: a small filled trophy riding high beside the name like a
-   footnote mark, with the place in mono. */
-.award {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  margin-left: 0.32em;
-  position: relative;
-  top: -0.5em;
-  letter-spacing: 0;
-}
-.award svg {
-  width: 0.42em;
-  height: 0.42em;
-  fill: currentColor;
-}
-.award .mono {
-  color: var(--ink-40);
-  transition: color 0.4s var(--ease-io);
 }
 
 @media (hover: hover) {
@@ -340,9 +263,6 @@ main {
     transform-origin: top;
   }
   .row:hover > * {
-    color: var(--bg);
-  }
-  .row:hover .award .mono {
     color: var(--bg);
   }
   .row:hover .row-title {
@@ -364,48 +284,6 @@ main {
   outline-offset: 3px;
 }
 
-/* The address, set like the contact line on the site. */
-.mail {
-  display: inline-block;
-  margin-top: clamp(1.5rem, 4vw, 2.25rem);
-  font-size: clamp(1.85rem, 9.4vw, 4.6rem);
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  line-height: 0.95;
-  text-transform: uppercase;
-}
-.mail span {
-  display: block;
-  position: relative;
-  white-space: nowrap;
-}
-.mail span::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0.08em;
-  width: 100%;
-  height: 0.045em;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.55s var(--ease);
-}
-.mail span:nth-child(2)::after {
-  transition-delay: 0.1s;
-}
-.mail:hover span::after {
-  transform: scaleX(1);
-}
-.mail:active {
-  opacity: 0.55;
-  transition: opacity 90ms ease-out;
-}
-.mail:focus-visible {
-  outline: 2px solid var(--fg);
-  outline-offset: 4px;
-}
-
 /* ─── Footer ──────────────────────────────────────────────────────────────── */
 .foot {
   display: flex;
@@ -416,12 +294,6 @@ main {
   padding-block: 2rem;
   border-top: 1px solid var(--rule);
   color: var(--ink-40);
-}
-.foot-link {
-  transition: color 0.35s var(--ease-io);
-}
-.foot-link:hover {
-  color: var(--fg);
 }
 
 /* ─── Entrances ───────────────────────────────────────────────────────────── */
