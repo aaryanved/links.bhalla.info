@@ -170,9 +170,16 @@ a {
 }
 
 /* ─── Name ────────────────────────────────────────────────────────────────── */
+/* One line, sized off the column so it fits a phone without wrapping. */
+.page {
+  container-type: inline-size;
+}
 .name {
   padding-top: clamp(2rem, 8vh, 5rem);
-  font-size: clamp(3.4rem, 17vw, 8.75rem);
+  font-size: min(3.5rem, 9.4cqi);
+  white-space: nowrap;
+  /* The display tracking pulls the words together too; open the gaps back up. */
+  word-spacing: 0.14em;
 }
 /* Each line rises out of its own mask, as the hero name does on the site. */
 .mask {
