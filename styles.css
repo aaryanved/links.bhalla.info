@@ -1,6 +1,6 @@
 /* links.bhalla.info: the same rules as bhalla.info. Black and white only,
    every grey is the ink at reduced alpha, Inter for type and JetBrains Mono
-   for labels. */
+   for labels. The theme is always the device's: no switch. */
 
 /* ─── Tokens ──────────────────────────────────────────────────────────────── */
 :root {
@@ -24,15 +24,8 @@
   --ease-press: cubic-bezier(0.2, 0, 0, 1);
 }
 
-:root[data-theme="dark"] {
-  --bg: #000000;
-  --fg: #ffffff;
-  --fg-rgb: 255 255 255;
-}
-
-/* No script (or blocked storage): still follow the OS. */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
+  :root {
     --bg: #000000;
     --fg: #ffffff;
     --fg-rgb: 255 255 255;
@@ -97,89 +90,18 @@ a {
   padding-inline: var(--pad);
 }
 
-.top {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding-block: 1.25rem;
-}
-
-/* The black hole, in miniature: a void with its disc tilted and turning.
-   Same job as on the main site, it inverts the page. */
-.hole {
-  display: grid;
-  place-items: center;
-  width: 3.25rem;
-  height: 3.25rem;
-  margin-right: -0.6rem;
-  background: none;
-  border: 0;
-  border-radius: 50%;
-  color: var(--fg);
-  cursor: pointer;
-}
-.hole svg {
-  width: 2.9rem;
-  height: 2.9rem;
-  overflow: visible;
-  transition: transform 0.5s var(--ease);
-}
-.hole circle {
-  fill: currentColor;
-}
-/* Round dots rather than dashes, so the disc reads as particles, like the
-   one on the site. */
-.hole .ring {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  stroke-dasharray: 0.01 4.2;
-  animation: orbit 3s linear infinite;
-}
-.hole .r1 {
-  opacity: 0.9;
-}
-.hole .r2 {
-  opacity: 0.6;
-  stroke-dasharray: 0.01 5;
-  animation-duration: 4.2s;
-}
-.hole .r3 {
-  opacity: 0.35;
-  stroke-dasharray: 0.01 6;
-  animation-duration: 6s;
-}
-@keyframes orbit {
-  to {
-    stroke-dashoffset: -36;
-  }
-}
-@media (hover: hover) {
-  .hole:hover svg {
-    transform: scale(1.12);
-  }
-}
-.hole:active svg {
-  transform: scale(0.92);
-  transition-duration: 0.12s;
-}
-.hole:focus-visible {
-  outline: 2px solid var(--fg);
-  outline-offset: 2px;
-}
-
 /* ─── Name ────────────────────────────────────────────────────────────────── */
 /* One line, sized off the column so it fits a phone without wrapping. */
 .page {
   container-type: inline-size;
 }
 .name {
-  padding-top: clamp(2rem, 8vh, 5rem);
+  padding-top: clamp(4rem, 14vh, 8rem);
   font-size: min(3.5rem, 9.4cqi);
   white-space: nowrap;
   /* The display tracking pulls the words together too; open the gaps back up. */
   word-spacing: 0.14em;
+  text-align: center;
 }
 /* Each line rises out of its own mask, as the hero name does on the site. */
 .mask {
@@ -209,18 +131,19 @@ a {
   padding-bottom: clamp(4rem, 12vh, 7rem);
 }
 
-/* Each link is a pill: a hairline of ink that floods with ink on hover and
-   knocks the type out of it, the site's row hover in a rounder shape.
-   Transform and opacity only. */
+/* Each link is a pill: logo, centred name, arrow. A hairline of ink that
+   floods with ink on hover and knocks everything out of it, the site's row
+   hover in a rounder shape. Transform and opacity only. */
 .row {
   position: relative;
   isolation: isolate;
   overflow: hidden;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  /* Equal side columns keep the name dead centre whatever the logo's width. */
+  grid-template-columns: 1.6rem minmax(0, 1fr) 1.6rem;
   align-items: center;
-  gap: clamp(0.75rem, 2vw, 1.25rem);
-  padding: clamp(0.95rem, 2.2vw, 1.15rem) clamp(1.25rem, 3.4vw, 1.9rem);
+  gap: 0.75rem;
+  padding: clamp(0.95rem, 2.2vw, 1.15rem) clamp(1.1rem, 3vw, 1.6rem);
   border: 1px solid var(--ink-20);
   border-radius: 999px;
   transition:
@@ -243,34 +166,63 @@ a {
     color 0.4s var(--ease-io);
 }
 
+.row-logo {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: currentColor;
+  overflow: visible;
+}
 .row-title {
-  display: flex;
-  align-items: center;
-  min-width: 0;
-  font-size: clamp(1.15rem, 3.6vw, 1.6rem);
+  text-align: center;
+  font-size: clamp(1.15rem, 3.6vw, 1.5rem);
   font-weight: 800;
   letter-spacing: -0.032em;
   line-height: 1;
   white-space: nowrap;
-  /* Pills hold the same height when the title is a glyph (X) not a word. */
-  min-height: 1em;
-}
-.row-meta {
-  color: var(--ink-40);
-  text-align: right;
 }
 .row-arrow {
+  justify-self: end;
   width: 0.9rem;
   height: 0.9rem;
   fill: currentColor;
   color: var(--ink-40);
 }
 
-/* X's own mark stands in for the word, sized to the caps around it. */
-.x-mark {
-  width: 0.8em;
-  height: 0.8em;
+/* bhalla.info's logo is its black hole: a void with a dotted disc, tilted and
+   slowly turning. Its box is cropped to the disc and runs a little wide, so
+   it reads at the size of the other logos without making its pill taller. */
+.row-site .row-logo {
+  width: 2rem;
+  margin-left: -0.2rem;
+}
+#i-hole circle {
   fill: currentColor;
+}
+#i-hole .ring {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-dasharray: 0.01 4.2;
+  animation: orbit 3s linear infinite;
+}
+#i-hole .r1 {
+  opacity: 0.9;
+}
+#i-hole .r2 {
+  opacity: 0.6;
+  stroke-dasharray: 0.01 5;
+  animation-duration: 4.2s;
+}
+#i-hole .r3 {
+  opacity: 0.35;
+  stroke-dasharray: 0.01 6;
+  animation-duration: 6s;
+}
+@keyframes orbit {
+  to {
+    stroke-dashoffset: -36;
+  }
 }
 
 @media (hover: hover) {
@@ -284,11 +236,8 @@ a {
   .row:hover > * {
     color: var(--bg);
   }
-  .row:hover .row-title {
-    transform: translateX(0.35rem);
-  }
-  .row:hover .row-meta {
-    transform: translateX(-0.35rem);
+  .row:hover .row-logo {
+    transform: scale(1.08);
   }
   .row:hover .row-arrow {
     transform: rotate(45deg);
@@ -306,7 +255,7 @@ a {
 /* ─── Footer ──────────────────────────────────────────────────────────────── */
 .foot {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
   margin-top: auto;
@@ -327,30 +276,10 @@ a {
   }
 }
 
-/* ─── Theme wipe ──────────────────────────────────────────────────────────── */
-/* The new theme radiates out from the black hole that was pressed. */
-::view-transition-old(root) {
-  animation: none;
-}
-::view-transition-new(root) {
-  animation: theme-wipe 0.62s var(--ease-io) both;
-}
-@keyframes theme-wipe {
-  from {
-    clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 50%));
-  }
-  to {
-    clip-path: circle(var(--vt-r, 150%) at var(--vt-x, 50%) var(--vt-y, 50%));
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .mask > span,
   .rise,
-  .hole .ring {
+  #i-hole .ring {
     animation: none;
-  }
-  ::view-transition-new(root) {
-    animation: none !important;
   }
 }

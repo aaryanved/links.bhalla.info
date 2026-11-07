@@ -23,15 +23,6 @@
     <meta name="twitter:description" content="Personal site and socials, in one place." />
     <meta name="twitter:image" content="https://links.bhalla.info/og.png" />
 
-    <!-- Runs before first paint, same rule as bhalla.info: a fresh visit opens
-         on the OS preference, a toggle only holds for the session. -->
-    <script>
-      try {
-        var s = sessionStorage.getItem("theme");
-        document.documentElement.dataset.theme = s || (matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light");
-      } catch (e) {}
-    </script>
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -39,70 +30,71 @@
       href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..900&family=JetBrains+Mono:wght@400;500&display=swap"
     />
     <link rel="stylesheet" href="/styles.css" />
-    <script src="/main.js" defer></script>
   </head>
   <body>
-    <!-- Icons are Phosphor (phosphoricons.com): ArrowUpRight bold and XLogo
-         bold. Defined once, used by reference. -->
+    <!-- Logos are Phosphor (phosphoricons.com): GithubLogo, LinkedinLogo,
+         InstagramLogo and YoutubeLogo fill, XLogo and ArrowUpRight bold, and
+         Hexagon bold for DevPost, whose own mark is a hexagon (Phosphor has no
+         DevPost logo). Defined once, used by reference. -->
     <svg width="0" height="0" style="position: absolute" aria-hidden="true">
       <symbol id="i-arrow" viewBox="0 0 256 256"><path d="M204,64V168a12,12,0,0,1-24,0V93L72.49,200.49a12,12,0,0,1-17-17L163,76H88a12,12,0,0,1,0-24H192A12,12,0,0,1,204,64Z" /></symbol>
+      <symbol id="i-github" viewBox="0 0 256 256"><path d="M216,104v8a56.06,56.06,0,0,1-48.44,55.47A39.8,39.8,0,0,1,176,192v40a8,8,0,0,1-8,8H104a8,8,0,0,1-8-8V216H72a40,40,0,0,1-40-40A24,24,0,0,0,8,152a8,8,0,0,1,0-16,40,40,0,0,1,40,40,24,24,0,0,0,24,24H96v-8a39.8,39.8,0,0,1,8.44-24.53A56.06,56.06,0,0,1,56,112v-8a58.14,58.14,0,0,1,7.69-28.32A59.78,59.78,0,0,1,69.07,28,8,8,0,0,1,76,24a59.75,59.75,0,0,1,48,24h24a59.75,59.75,0,0,1,48-24,8,8,0,0,1,6.93,4,59.74,59.74,0,0,1,5.37,47.68A58,58,0,0,1,216,104Z" /></symbol>
+      <symbol id="i-linkedin" viewBox="0 0 256 256"><path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24ZM96,176a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0ZM88,96a12,12,0,1,1,12-12A12,12,0,0,1,88,96Zm96,80a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140Z" /></symbol>
+      <symbol id="i-devpost" viewBox="0 0 256 256"><path d="M225.6,62.64l-88-48.17a19.91,19.91,0,0,0-19.2,0l-88,48.17A20,20,0,0,0,20,80.19v95.62a20,20,0,0,0,10.4,17.55l88,48.17a19.89,19.89,0,0,0,19.2,0l88-48.17A20,20,0,0,0,236,175.81V80.19A20,20,0,0,0,225.6,62.64ZM212,173.44l-84,46-84-46V82.56l84-46,84,46Z" /></symbol>
+      <symbol id="i-instagram" viewBox="0 0 256 256"><path d="M176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24ZM128,176a48,48,0,1,1,48-48A48.05,48.05,0,0,1,128,176Zm60-96a12,12,0,1,1,12-12A12,12,0,0,1,188,80Zm-28,48a32,32,0,1,1-32-32A32,32,0,0,1,160,128Z" /></symbol>
+      <symbol id="i-youtube" viewBox="0 0 256 256"><path d="M234.33,69.52a24,24,0,0,0-14.49-16.4C185.56,39.88,131,40,128,40s-57.56-.12-91.84,13.12a24,24,0,0,0-14.49,16.4C19.08,79.5,16,97.74,16,128s3.08,48.5,5.67,58.48a24,24,0,0,0,14.49,16.41C69,215.56,120.4,216,127.34,216h1.32c6.94,0,58.37-.44,91.18-13.11a24,24,0,0,0,14.49-16.41c2.59-10,5.67-28.22,5.67-58.48S236.92,79.5,234.33,69.52Zm-73.74,65-40,28A8,8,0,0,1,108,156V100a8,8,0,0,1,12.59-6.55l40,28a8,8,0,0,1,0,13.1Z" /></symbol>
       <symbol id="i-x" viewBox="0 0 256 256"><path d="M218.12,209.56l-61-95.8,59.72-65.69a12,12,0,0,0-17.76-16.14L143.81,92.77,106.12,33.56A12,12,0,0,0,96,28H48A12,12,0,0,0,37.88,46.44l61,95.8L39.12,207.93a12,12,0,1,0,17.76,16.14l55.31-60.84,37.69,59.21A12,12,0,0,0,160,228h48a12,12,0,0,0,10.12-18.44ZM166.59,204,69.86,52H89.41l96.73,152Z" /></symbol>
+      <!-- The black hole, bhalla.info's own motif: a void with its disc tilted
+           and turning. -->
+      <symbol id="i-hole" viewBox="-40 -30 80 60">
+        <g transform="rotate(-22)">
+          <ellipse class="ring r1" rx="22" ry="6" />
+          <ellipse class="ring r2" rx="29" ry="8.2" />
+          <ellipse class="ring r3" rx="36" ry="10.4" />
+        </g>
+        <circle r="9" />
+      </symbol>
     </svg>
     <div class="page">
-      <header class="top">
-        <!-- The black hole is the theme switch here too. -->
-        <button class="hole" type="button" aria-label="Invert the page">
-          <svg viewBox="-40 -40 80 80" aria-hidden="true">
-            <g transform="rotate(-22)">
-              <ellipse class="ring r1" rx="22" ry="6" />
-              <ellipse class="ring r2" rx="29" ry="8.2" />
-              <ellipse class="ring r3" rx="36" ry="10.4" />
-            </g>
-            <circle r="9" />
-          </svg>
-        </button>
-      </header>
-
       <h1 class="display name">
         <span class="mask"><span style="--i: 0">Aaryan Ved Bhalla</span></span>
       </h1>
 
       <!-- The personal site first, then the socials, in bhalla.info's order. -->
       <nav class="links" aria-label="Links">
-        <a class="row site rise" style="--i: 3" href="https://bhalla.info">
+        <a class="row row-site rise" style="--i: 1" href="https://bhalla.info">
+          <svg class="row-logo" aria-hidden="true"><use href="#i-hole" /></svg>
           <span class="row-title">bhalla.info</span>
-          <span class="row-meta mono">Personal site</span>
           <svg class="row-arrow" aria-hidden="true"><use href="#i-arrow" /></svg>
         </a>
-        <a class="row rise" style="--i: 4" href="https://github.com/aaryanved/" target="_blank" rel="noopener noreferrer">
+        <a class="row rise" style="--i: 2" href="https://github.com/aaryanved/" target="_blank" rel="noopener noreferrer">
+          <svg class="row-logo" aria-hidden="true"><use href="#i-github" /></svg>
           <span class="row-title">GitHub</span>
-          <span class="row-meta mono">aaryanved</span>
           <svg class="row-arrow" aria-hidden="true"><use href="#i-arrow" /></svg>
         </a>
-        <a class="row rise" style="--i: 5" href="https://linkedin.com/in/aaryanved" target="_blank" rel="noopener noreferrer">
+        <a class="row rise" style="--i: 3" href="https://linkedin.com/in/aaryanved" target="_blank" rel="noopener noreferrer">
+          <svg class="row-logo" aria-hidden="true"><use href="#i-linkedin" /></svg>
           <span class="row-title">LinkedIn</span>
-          <span class="row-meta mono">aaryanved</span>
           <svg class="row-arrow" aria-hidden="true"><use href="#i-arrow" /></svg>
         </a>
-        <a class="row rise" style="--i: 6" href="https://devpost.com/avbhalla" target="_blank" rel="noopener noreferrer">
+        <a class="row rise" style="--i: 4" href="https://devpost.com/avbhalla" target="_blank" rel="noopener noreferrer">
+          <svg class="row-logo" aria-hidden="true"><use href="#i-devpost" /></svg>
           <span class="row-title">DevPost</span>
-          <span class="row-meta mono">avbhalla</span>
           <svg class="row-arrow" aria-hidden="true"><use href="#i-arrow" /></svg>
         </a>
-        <a class="row rise" style="--i: 7" href="https://instagram.com/aaryanvb" target="_blank" rel="noopener noreferrer">
+        <a class="row rise" style="--i: 5" href="https://instagram.com/aaryanvb" target="_blank" rel="noopener noreferrer">
+          <svg class="row-logo" aria-hidden="true"><use href="#i-instagram" /></svg>
           <span class="row-title">Instagram</span>
-          <span class="row-meta mono">@aaryanvb</span>
           <svg class="row-arrow" aria-hidden="true"><use href="#i-arrow" /></svg>
         </a>
-        <a class="row rise" style="--i: 8" href="https://www.youtube.com/@aaryanvb?sub_confirmation=1" target="_blank" rel="noopener noreferrer">
+        <a class="row rise" style="--i: 6" href="https://www.youtube.com/@aaryanvb?sub_confirmation=1" target="_blank" rel="noopener noreferrer">
+          <svg class="row-logo" aria-hidden="true"><use href="#i-youtube" /></svg>
           <span class="row-title">YouTube</span>
-          <span class="row-meta mono">@aaryanvb</span>
           <svg class="row-arrow" aria-hidden="true"><use href="#i-arrow" /></svg>
         </a>
-        <!-- X goes by its own mark, as on bhalla.info. -->
-        <a class="row rise" style="--i: 9" href="https://x.com/aaryanvedbhalla" target="_blank" rel="noopener noreferrer" aria-label="X, @aaryanvedbhalla">
-          <span class="row-title"><svg class="x-mark" aria-hidden="true"><use href="#i-x" /></svg></span>
-          <span class="row-meta mono" aria-hidden="true">@aaryanvedbhalla</span>
+        <a class="row rise" style="--i: 7" href="https://x.com/aaryanvedbhalla" target="_blank" rel="noopener noreferrer">
+          <svg class="row-logo" aria-hidden="true"><use href="#i-x" /></svg>
+          <span class="row-title">X</span>
           <svg class="row-arrow" aria-hidden="true"><use href="#i-arrow" /></svg>
         </a>
       </nav>
@@ -111,5 +103,8 @@
         <span>© <span data-year>2026</span> Aaryan Ved Bhalla</span>
       </footer>
     </div>
+    <script>
+      document.querySelector("[data-year]").textContent = new Date().getFullYear();
+    </script>
   </body>
 </html>
