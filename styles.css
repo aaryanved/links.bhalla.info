@@ -1,0 +1,465 @@
+/* links.bhalla.info: the same rules as bhalla.info. Black and white only,
+   every grey is the ink at reduced alpha, Inter for type and JetBrains Mono
+   for labels. */
+
+/* ─── Tokens ──────────────────────────────────────────────────────────────── */
+:root {
+  --bg: #ffffff;
+  --fg: #000000;
+  /* Every tint is derived from this, so flipping it inverts the whole page. */
+  --fg-rgb: 0 0 0;
+
+  --ink-60: rgb(var(--fg-rgb) / 0.6);
+  --ink-40: rgb(var(--fg-rgb) / 0.4);
+  --rule: rgb(var(--fg-rgb) / 0.16);
+
+  --pad: clamp(1.25rem, 5vw, 3rem);
+
+  --font-inter: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-io: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-press: cubic-bezier(0.2, 0, 0, 1);
+}
+
+:root[data-theme="dark"] {
+  --bg: #000000;
+  --fg: #ffffff;
+  --fg-rgb: 255 255 255;
+}
+
+/* No script (or blocked storage): still follow the OS. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg: #000000;
+    --fg: #ffffff;
+    --fg-rgb: 255 255 255;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-inter);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: clamp(0.62rem, 0.8vw, 0.7rem);
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.display {
+  font-weight: 900;
+  line-height: 0.84;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+}
+
+/* ─── Frame ───────────────────────────────────────────────────────────────── */
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  max-width: 52rem;
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 1.25rem;
+  color: var(--ink-60);
+}
+.top-home {
+  transition: color 0.35s var(--ease-io);
+}
+.top-home:hover {
+  color: var(--fg);
+}
+
+/* The black hole, in miniature: a void with its disc tilted and turning.
+   Same job as on the main site, it inverts the page. */
+.hole {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  margin-right: -0.6rem;
+  background: none;
+  border: 0;
+  border-radius: 50%;
+  color: var(--fg);
+  cursor: pointer;
+}
+.hole svg {
+  width: 2.9rem;
+  height: 2.9rem;
+  overflow: visible;
+  transition: transform 0.5s var(--ease);
+}
+.hole circle {
+  fill: currentColor;
+}
+/* Round dots rather than dashes, so the disc reads as particles, like the
+   one on the site. */
+.hole .ring {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 0.01 4.2;
+  animation: orbit 3s linear infinite;
+}
+.hole .r1 {
+  opacity: 0.9;
+}
+.hole .r2 {
+  opacity: 0.6;
+  stroke-dasharray: 0.01 5;
+  animation-duration: 4.2s;
+}
+.hole .r3 {
+  opacity: 0.35;
+  stroke-dasharray: 0.01 6;
+  animation-duration: 6s;
+}
+@keyframes orbit {
+  to {
+    stroke-dashoffset: -36;
+  }
+}
+@media (hover: hover) {
+  .hole:hover svg {
+    transform: scale(1.12);
+  }
+}
+.hole:active svg {
+  transform: scale(0.92);
+  transition-duration: 0.12s;
+}
+.hole:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+/* ─── Hero ────────────────────────────────────────────────────────────────── */
+.hero {
+  padding-top: clamp(2.5rem, 9vh, 5.5rem);
+}
+.name {
+  font-size: clamp(3.4rem, 17vw, 8.75rem);
+}
+/* Each line rises out of its own mask, as the hero name does on the site. */
+.mask {
+  display: block;
+  overflow: hidden;
+  /* Room for the line's own ink below a 0.84 line height. */
+  padding-bottom: 0.04em;
+  margin-bottom: -0.04em;
+}
+.mask > span {
+  display: block;
+  animation: mask-rise 0.95s var(--ease) both;
+  animation-delay: calc(var(--i) * 70ms + 60ms);
+}
+@keyframes mask-rise {
+  from {
+    transform: translateY(105%);
+  }
+}
+
+.role {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.6rem;
+  margin-top: clamp(1.5rem, 4vw, 2.25rem);
+  color: var(--ink-60);
+}
+.statement {
+  margin-top: 0.7rem;
+  max-width: 34ch;
+  font-size: clamp(1.05rem, 2.4vw, 1.25rem);
+  line-height: 1.45;
+  color: var(--ink-60);
+}
+
+/* ─── Links ───────────────────────────────────────────────────────────────── */
+main {
+  margin-top: clamp(3.5rem, 10vh, 6rem);
+  padding-bottom: clamp(4rem, 12vh, 7rem);
+}
+.group + .group {
+  margin-top: clamp(2.75rem, 7vh, 4.25rem);
+}
+
+.label {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink-60);
+}
+
+.row {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  padding-block: clamp(0.95rem, 2.4vw, 1.35rem);
+  border-bottom: 1px solid var(--rule);
+}
+/* Hover fills the row with ink and knocks the type out of it, as the
+   project rows do on the site. Transform and opacity only. */
+.row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--fg);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.5s var(--ease);
+}
+.row > * {
+  transition:
+    transform 0.4s var(--ease-press),
+    color 0.4s var(--ease-io);
+}
+
+.row-title {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  font-size: clamp(1.45rem, 5.4vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.038em;
+  line-height: 1;
+  white-space: nowrap;
+  /* Rows hold the same height when the title is a glyph (X) not a word. */
+  min-height: 1em;
+}
+.row-meta {
+  color: var(--ink-40);
+  text-align: right;
+}
+.row-arrow {
+  width: 0.95rem;
+  height: 0.95rem;
+  fill: currentColor;
+  color: var(--ink-40);
+}
+
+/* On a phone the event name drops under the project, so the place caption
+   and the event never crowd each other. */
+@media (max-width: 520px) {
+  .podium {
+    grid-template-columns: minmax(0, 1fr) auto;
+    row-gap: 0.55rem;
+  }
+  .podium .row-meta {
+    grid-row: 2;
+    grid-column: 1;
+    text-align: left;
+  }
+  .podium .row-arrow {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+  }
+  .row.podium:hover .row-meta {
+    transform: translateX(clamp(0.5rem, 1.4vw, 0.9rem));
+  }
+}
+
+/* X's own mark stands in for the word, sized to the caps around it. */
+.x-mark {
+  width: 0.78em;
+  height: 0.78em;
+  fill: currentColor;
+}
+
+/* A podium finish: a small filled trophy riding high beside the name like a
+   footnote mark, with the place in mono. */
+.award {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: 0.32em;
+  position: relative;
+  top: -0.5em;
+  letter-spacing: 0;
+}
+.award svg {
+  width: 0.42em;
+  height: 0.42em;
+  fill: currentColor;
+}
+.award .mono {
+  color: var(--ink-40);
+  transition: color 0.4s var(--ease-io);
+}
+
+@media (hover: hover) {
+  .row:hover::before {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  .row:hover > * {
+    color: var(--bg);
+  }
+  .row:hover .award .mono {
+    color: var(--bg);
+  }
+  .row:hover .row-title {
+    transform: translateX(clamp(0.5rem, 1.4vw, 0.9rem));
+  }
+  .row:hover .row-arrow {
+    transform: translate(calc(-1 * clamp(0.5rem, 1.4vw, 0.9rem)), 0) rotate(45deg);
+  }
+  .row:hover .row-meta {
+    transform: translateX(calc(-1 * clamp(0.5rem, 1.4vw, 0.9rem)));
+  }
+}
+.row:active .row-title {
+  opacity: 0.6;
+  transition: opacity 90ms ease-out;
+}
+.row:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 3px;
+}
+
+/* The address, set like the contact line on the site. */
+.mail {
+  display: inline-block;
+  margin-top: clamp(1.5rem, 4vw, 2.25rem);
+  font-size: clamp(1.85rem, 9.4vw, 4.6rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.mail span {
+  display: block;
+  position: relative;
+  white-space: nowrap;
+}
+.mail span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0.08em;
+  width: 100%;
+  height: 0.045em;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.55s var(--ease);
+}
+.mail span:nth-child(2)::after {
+  transition-delay: 0.1s;
+}
+.mail:hover span::after {
+  transform: scaleX(1);
+}
+.mail:active {
+  opacity: 0.55;
+  transition: opacity 90ms ease-out;
+}
+.mail:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 4px;
+}
+
+/* ─── Footer ──────────────────────────────────────────────────────────────── */
+.foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-block: 2rem;
+  border-top: 1px solid var(--rule);
+  color: var(--ink-40);
+}
+.foot-link {
+  transition: color 0.35s var(--ease-io);
+}
+.foot-link:hover {
+  color: var(--fg);
+}
+
+/* ─── Entrances ───────────────────────────────────────────────────────────── */
+.rise {
+  animation: rise 0.8s var(--ease) both;
+  animation-delay: calc(var(--i) * 40ms + 180ms);
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+/* ─── Theme wipe ──────────────────────────────────────────────────────────── */
+/* The new theme radiates out from the black hole that was pressed. */
+::view-transition-old(root) {
+  animation: none;
+}
+::view-transition-new(root) {
+  animation: theme-wipe 0.62s var(--ease-io) both;
+}
+@keyframes theme-wipe {
+  from {
+    clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 50%));
+  }
+  to {
+    clip-path: circle(var(--vt-r, 150%) at var(--vt-x, 50%) var(--vt-y, 50%));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mask > span,
+  .rise,
+  .hole .ring {
+    animation: none;
+  }
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
